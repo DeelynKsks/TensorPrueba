@@ -1,0 +1,50 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Document</title>
+    <!-- Load TensorFlow.js. This is required to use coco-ssd model. -->
+    <script src="https://cdn.jsdelivr.net/npm/@tensorflow/tfjs"> </script>
+    <!-- Load the coco-ssd model. -->
+    <script src="https://cdn.jsdelivr.net/npm/@tensorflow-models/coco-ssd"> </script>
+</head>
+<body>
+    <!-- Replace this with your image. Make sure CORS settings allow reading the image! -->
+    <div>
+        <img id="img" width="25%" src="/Detección de Objetos/Images/_4b66db1a-1ad6-4b9f-a1c8-181b411b7f67.jpg"/>
+        <div id="render">
+            
+        </div>
+    </div>
+    
+
+    <!-- Place your code in the script tag below. You can also use an external .js file -->
+    <script>
+        // Notice there is no 'import' statement. 'cocoSsd' and 'tf' is
+        // available on the index-page because of the script tag above.
+
+        const img = document.getElementById('img');
+        const divElement = document.getElementById('render')
+
+        const render = (a) => {
+            
+            a.forEach((e) => {
+                    divElement.innerHTML += (`
+                        <p>${e.class}</p>
+                    `)
+            });
+        }
+
+        // Load the model.
+        cocoSsd.load().then(model => {
+            // detect objects in the image.
+            model.detect(img).then(predictions => {
+                console.log('Predictions: ', predictions);
+                render(predictions)
+            });
+        });
+    </script>
+</body>
+</html>
